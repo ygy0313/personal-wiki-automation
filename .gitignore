@@ -1,0 +1,14 @@
+# Logs
+*.log
+logs/
+
+# PID files
+*.pid
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment / Secrets
+.env
+config/nginx-trojan-go.conf

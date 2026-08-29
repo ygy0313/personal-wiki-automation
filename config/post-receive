@@ -1,0 +1,15 @@
+#!/bin/bash
+GIT_DIR="/opt/<YOUR_USER>/wiki/repo/wiki.git"
+WORK_TREE="/opt/<YOUR_USER>/wiki/content"
+QUARTZ_CONTENT="/opt/<YOUR_USER>/wiki/quartz/content"
+DEPLOY_SCRIPT="/opt/<YOUR_USER>/wiki/deploy.sh"
+
+echo " 接收到 Git Push，正在更新内容目录..."
+mkdir -p "$WORK_TREE"
+git --work-tree="$WORK_TREE" --git-dir="$GIT_DIR" checkout -f 2>/dev/null
+
+echo " 同步内容到 Quartz 目录..."
+rsync -avz --delete "$WORK_TREE/" "$QUARTZ_CONTENT/"
+
+echo " 触发后台部署..."
+nohup "$DEPLOY_SCRIPT" > /dev/null 2>&1 &
